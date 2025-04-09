@@ -43,16 +43,39 @@
         padding: 15px;
         box-shadow: 0 4px 8px rgba(0,0,0,1);
       }
+
+      .image-wrapper {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        cursor: pointer;
+      }
+
       .img {
         width: 150px;
         height: 150px;
         display: block;
-        margin: 0 auto 1px;
         border: 4px solid #0275d8;
         border-radius: 50%;
         object-fit: cover;
-        cursor: pointer;
       }
+
+      .overlay-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 4px 8px;
+        border-radius: 6px;
+        pointer-events: none;
+        font-size: 14px;
+      }
+
       footer {
         background-color: #0275f4;
         color: white;
@@ -81,7 +104,10 @@
       <section id="image">
         <h2>Profile Photo</h2>
         <input type="file" id="fileInput" accept="image/*" style="display: none;">
-        <img id="profileImage" class="img" src="https://via.placeholder.com/150" alt="Click to upload photo">
+        <div class="image-wrapper" onclick="document.getElementById('fileInput').click();">
+          <img id="profileImage" class="img" src="https://via.placeholder.com/150">
+          <div class="overlay-text">Click to upload</div>
+        </div>
       </section>
 
       <section id="aboutme">
@@ -132,19 +158,4 @@
       const profileImage = document.getElementById('profileImage');
 
       profileImage.addEventListener('click', () => {
-        fileInput.click(); // open file picker
-      });
-
-      fileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            profileImage.src = e.target.result; // set image preview
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-    </script>
-  </body>
-</html>
+        fileInput.click(); // open
