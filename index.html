@@ -10,6 +10,7 @@
         font-family: 'Raleway', sans-serif;
         background-color: #f2f2f2;
       }
+
       header {
         background-color: #0275f4;
         color: white;
@@ -17,25 +18,30 @@
         text-align: center;
         border-bottom: 4px solid #025aa5;
       }
+
       nav {
         background-color: #025aa5;
         padding: 1rem;
         text-align: center;
       }
+
       nav a {
         color: white;
         margin: 10px;
         text-decoration: none;
         font-weight: bold;
       }
+
       main {
         padding: 2px;
         max-width: auto;
         margin: auto;
       }
+
       section {
         margin-bottom: 2px;
       }
+
       #aboutme, #image, #skills, #video, #education, #contact {
         margin-top: 15px;
         background: white;
@@ -104,9 +110,9 @@
       <section id="image">
         <h2>Profile Photo</h2>
         <input type="file" id="fileInput" accept="image/*" style="display: none;">
-        <div class="image-wrapper" onclick="document.getElementById('fileInput').click();">
-          <img id="profileImage" class="img" src="https://via.placeholder.com/150">
-          <div class="overlay-text">Click to upload</div>
+        <div class="image-wrapper" id="imageWrapper">
+          <img id="profileImage" class="img" src="https://via.placeholder.com/150" alt="Click to upload photo">
+          <div class="overlay-text" id="overlayText">Click to upload</div>
         </div>
       </section>
 
@@ -156,6 +162,26 @@
     <script>
       const fileInput = document.getElementById('fileInput');
       const profileImage = document.getElementById('profileImage');
+      const imageWrapper = document.getElementById('imageWrapper');
+      const overlayText = document.getElementById('overlayText');
 
-      profileImage.addEventListener('click', () => {
-        fileInput.click(); // open
+      // Click anywhere on image wrapper to open file picker
+      imageWrapper.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      // Change profile image on file selection
+      fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            profileImage.src = e.target.result;
+            overlayText.style.display = 'none'; // Optional: hide text after upload
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    </script>
+  </body>
+</html>
